@@ -125,7 +125,7 @@ namespace Aula1.Controllers
                 var s = _context.Categories.Find(category.CategoryId);
                 _context.Categories.Remove(s);
                 _context.SaveChanges();
-                TempData["Message"] = "Categoria " + category.Name.ToUpper() + " foi removida";
+                TempData["Message"] = "Categoria " +category.Name.ToUpper() + " foi removida";
                 return RedirectToAction("Index");
             }
             return View(category);
