@@ -120,6 +120,7 @@ namespace Aula1.Controllers
                 var s = _context.Suppliers.Find(supplier.SupplierId);
                 _context.Suppliers.Remove(s);
                 _context.SaveChanges();
+                TempData["Message"] = "Fabricante " +supplier.Name.ToUpper() + " foi removido";
                 return RedirectToAction("Index");
             }
             return View(supplier);
