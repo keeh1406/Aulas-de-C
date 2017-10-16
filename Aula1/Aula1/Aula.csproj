@@ -412,11 +412,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Contexts\EFContext.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -439,6 +441,7 @@
     <Content Include="Views\Categories\Details.cshtml" />
     <Content Include="Views\Categories\Delete.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

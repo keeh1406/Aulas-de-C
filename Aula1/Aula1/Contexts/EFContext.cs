@@ -12,5 +12,6 @@ namespace Aula1.Context
         public EFContext() : base("Asp_Net_MVC_CS") { }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }
