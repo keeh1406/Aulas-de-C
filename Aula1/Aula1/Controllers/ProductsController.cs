@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Aula1.Context;
@@ -14,22 +16,32 @@ namespace Aula1.Controllers
         //	GET:	Produtos
         public ActionResult Index()
         {
-            var products = context.Products.Include(c => c.Category).
-                            Include(f => s.Supplier).OrderBy(n => n.Name);
+            var products = context.Products.Include(c => c.Category).Include(s => s.Supplier).OrderBy(n => n.Name);
             return View(products);
-        }
+        }
 
-        // GET: Products/Details/5
-        public ActionResult Details(int id)
+
+        //	GET:	Produtos/Details/5
+        public ActionResult Details(long? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.
+                                BadRequest);
+            }
+            Product product = context.Products.Where(p => p.ProductId == id).Include(c => c.Category).Include(s => s.Supplier).First();
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
         }
 
         //	GET:	Produtos/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryId = new SelectList(context.Categories.OrderBy(b => b.Name), "CategoryId", "Name");
-            ViewBag.FabricanteId = new SelectList(context.Suppliers.OrderBy(b => b.Name), "SupplierId", "Name");
+            ViewBag.CategoryId = new SelectList(context.Categories.OrderBy(n => n.Name), "CategoryId", "Name");
+            ViewBag.SupplierId = new SelectList(context.Suppliers.OrderBy(n => n.Name), "SupplierId", "Name");
             return View();
         }
 
@@ -47,44 +59,71 @@ namespace Aula1.Controllers
             {
                 return View(product);
             }
-        }
-
-        // GET: Products/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
         }
 
-        // POST: Products/Edit/5
+
+        //	GET:	Produtos/Edit/5
+        public ActionResult Edit(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = context.Products.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CategoriaId = new SelectList(context.Categories.OrderBy(n => n.Name), "CategoryId", "Nome", product.CategoryId);
+            ViewBag.FabricanteId = new SelectList(context.Suppliers.OrderBy(n => n.Name), "SupplierId", "Nome", product.SupplierId);
+            return View(product);
+        }
+
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Product product)
         {
             try
             {
-                // TODO: Add update logic here
+                if (ModelState.IsValid)
+                {
+                    context.Entry(product).State = EntityState.Modified;
+                    context.SaveChanges();
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                return View(product);
             }
             catch
             {
-                return View();
+                return View(product);
             }
         }
 
-        // GET: Products/Delete/5
-        public ActionResult Delete(int id)
+        //	GET:	Produtos/Delete/5
+        public ActionResult Delete(long? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = context.Products.Where(p => p.ProductId == id).Include(c => c.Category).Include(s => s.Supplier).First();
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
         }
 
-        // POST: Products/Delete/5
+        //	POST:	Produtos/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(long id)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                Product product = context.Products.Find(id);
+                context.Products.Remove(product);
+                context.SaveChanges();
+                TempData["Message"] = "Produto	" + product.Name.ToUpper() + "	foi	removido";
                 return RedirectToAction("Index");
             }
             catch
