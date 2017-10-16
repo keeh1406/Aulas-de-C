@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Aula1.Context;
+using Aula1.Models;
 
 namespace Aula1.Controllers
 {
@@ -13,13 +14,10 @@ namespace Aula1.Controllers
         //	GET:	Produtos
         public ActionResult Index()
         {
-            return View(context.Products.OrderBy(c => c.Name));
+            var products = context.Products.Include(c => c.Category).
+                            Include(f => s.Supplier).OrderBy(n => n.Name);
+            return View(products);
         }
-        // GET: Products
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         // GET: Products/Details/5
         public ActionResult Details(int id)
@@ -27,27 +25,29 @@ namespace Aula1.Controllers
             return View();
         }
 
-        // GET: Products/Create
+        //	GET:	Produtos/Create
         public ActionResult Create()
         {
+            ViewBag.CategoryId = new SelectList(context.Categories.OrderBy(b => b.Name), "CategoryId", "Name");
+            ViewBag.FabricanteId = new SelectList(context.Suppliers.OrderBy(b => b.Name), "SupplierId", "Name");
             return View();
         }
 
-        // POST: Products/Create
+        //	POST:	Produtos/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Product product)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                context.Products.Add(product);
+                context.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(product);
             }
-        }
+        }
 
         // GET: Products/Edit/5
         public ActionResult Edit(int id)
