@@ -11,6 +11,6 @@ namespace Aula1.Models
         public long SupplierId { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<Supplier> Suppliers { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

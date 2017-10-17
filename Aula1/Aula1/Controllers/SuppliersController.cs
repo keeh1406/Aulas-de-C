@@ -79,7 +79,7 @@ namespace Aula1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Supplier supplier = context.Suppliers.Where(s => s.SupplierId == id).Include("Products.Category").First();
+            Supplier supplier = _context.Suppliers.Where(s => s.SupplierId == id).Include("Products.Category").First();
 
             if (supplier == null)
             {

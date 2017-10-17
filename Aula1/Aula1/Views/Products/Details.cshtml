@@ -23,7 +23,7 @@
             @Html.LabelFor(model => model.Category.Name)<br />
             <div class="input-group">
                 <span class="input-group-addon">
-                    <i class="glyphicon	glyphicon-user"></i>
+                    <i class="glyphicon	glyphicon-list"></i>
                 </span>
                 @Html.EditorFor(model => model.Category.Name, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
             </div>
@@ -32,15 +32,15 @@
             @Html.LabelFor(model => model.Supplier.Name)<br />
             <div class="input-group">
                 <span class="input-group-addon">
-                    <i class="glyphicon	glyphicon-user"></i>
+                    <i class="glyphicon	glyphicon-list"></i>
                 </span>
                 @Html.EditorFor(model => model.Supplier.Name, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
             </div>
         </div>
     </div>
     <div class="panel-footer	panel-info">
-        @Html.ActionLink("Edit", "Edit", new {id = Model.ProductId}, new { @class = "btn	btn-info" })
-        @Html.ActionLink("Retornar	para	a	listagem", "Index",[null, new { @class = "btn	btn-info" })
+        @Html.ActionLink("Edit", "Edit", new {id = Model.ProductId}, new { @class = "btn btn-info" })
+        @Html.ActionLink("Retornar para a listagem", "Index", null, new { @class = "btn btn-info" })
     </div>
 </div>
                                 @section	ScriptPage	{
